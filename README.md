@@ -1,6 +1,6 @@
 ## 基于 OP-TEE 的安全 HMAC 服务设计与实现
 
-## 一、任务概述（Task Overview）
+## 一、任务概述
 
 可信执行环境（TEE, Trusted Execution Environment）能够在普通操作系统（Normal World）之外提供一个隔离执行环境（Secure World），用于保护密钥、敏感计算逻辑和可信服务接口。本实验要求基于 **OP-TEE** 环境，设计并实现一个“**安全 HMAC 服务**”：
 
@@ -10,7 +10,7 @@
 
 ---
 
-## 二、实验目标（Learning Objectives）
+## 二、实验目标
 
 1. 理解 **Normal World / Secure World** 的基本职责划分；
 2. 理解 OP-TEE 中 **CA ↔ tee-supplicant ↔ TEE Core ↔ TA** 的调用路径；
