@@ -2,7 +2,7 @@
 
 ## 一、任务概述
 
-可信执行环境（TEE, Trusted Execution Environment）能够在普通操作系统（Normal World）之外提供一个隔离执行环境（Secure World），用于保护密钥、敏感计算逻辑和可信服务接口。本实验要求基于 **OP-TEE** 环境，设计并实现一个“**安全 HMAC 服务**”：
+可信执行环境（TEE, Trusted Execution Environment）能够在普通操作系统（Normal World）之外提供一个隔离执行环境（Secure World），用于保护密钥、敏感计算逻辑和可信服务接口。本实验要求基于 **OP-TEE** 环境，设计并实现一个 **安全 HMAC 服务**：
 
 * 在 **TA（Trusted Application）** 中安全生成/保存 HMAC 密钥，并在 TA 内完成 HMAC-SHA256 运算；
 * 在 **CA（Client Application）** 中调用 TA 提供的命令接口，实现密钥管理、消息认证码生成、认证码校验等功能；
