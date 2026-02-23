@@ -1,18 +1,8 @@
-基于 OP-TEE 的安全 HMAC 服务设计与实现
+## 基于 OP-TEE 的安全 HMAC 服务设计与实现
 
-## 一、任务信息
+## 一、任务概述（Task Overview）
 
-* **类别**：体系结构安全 / 可信计算（TEE）
-* **任务等级**：**C 级**
-* **建议技术栈**：C / GNU Make / OP-TEE / QEMU / Buildroot
-* **实验平台**：OP-TEE QEMU（推荐 `v8` / `qemu` 平台）
-* **任务类型**：设计实现型 + 实验操作型（混合）
-
----
-
-## 二、任务概述（Task Overview）
-
-可信执行环境（TEE, Trusted Execution Environment）能够在普通操作系统（Normal World）之外提供一个隔离执行环境（Secure World），用于保护密钥、敏感计算逻辑和可信服务接口。本实验要求同学基于 **OP-TEE** 环境，设计并实现一个“**安全 HMAC 服务**”：
+可信执行环境（TEE, Trusted Execution Environment）能够在普通操作系统（Normal World）之外提供一个隔离执行环境（Secure World），用于保护密钥、敏感计算逻辑和可信服务接口。本实验要求基于 **OP-TEE** 环境，设计并实现一个“**安全 HMAC 服务**”：
 
 * 在 **TA（Trusted Application）** 中安全生成/保存 HMAC 密钥，并在 TA 内完成 HMAC-SHA256 运算；
 * 在 **CA（Client Application）** 中调用 TA 提供的命令接口，实现密钥管理、消息认证码生成、认证码校验等功能；
@@ -20,9 +10,7 @@
 
 ---
 
-## 三、实验目标（Learning Objectives）
-
-完成本实验后，学生应能够：
+## 二、实验目标（Learning Objectives）
 
 1. 理解 **Normal World / Secure World** 的基本职责划分；
 2. 理解 OP-TEE 中 **CA ↔ tee-supplicant ↔ TEE Core ↔ TA** 的调用路径；
@@ -33,12 +21,10 @@
 
 ---
 
-## 四、实验环境与工具（Environment）
+## 三、实验环境
 
-### 1）基础环境（推荐）
-
-* Ubuntu 22.04/24.04（宿主机）
-* OP-TEE QEMU 环境（课程统一版本或同学自行配置版本）
+* Ubuntu 22.04/24.04
+* OP-TEE QEMU 环境（配置说明见 `env/README.md`）
 * GCC / Make / Git
 * OP-TEE 相关组件：
 
@@ -50,27 +36,7 @@
   * `buildroot`
   * `qemu`
 
-### 2）主要接口与头文件
-
-* CA侧：
-
-  * `tee_client_api.h`（`libteec`）
-* TA侧：
-
-  * `tee_internal_api.h`
-  * `tee_internal_api_extensions.h`
-
-### 3）运行形态
-
-* 在宿主机编译 TA / CA
-* 在 OP-TEE QEMU（Buildroot）中部署 `.ta` 与 CA 可执行文件
-* 在 Buildroot shell 中运行 CA 并观察返回结果
-
----
-
-## 五、任务功能要求（学生需要实现的具体功能）
-
-## 基本要求（必须完成）
+## 四、任务要求
 
 ### 子实验一：环境全栈启动与双世界日志追踪（10分）
 
@@ -114,11 +80,6 @@
   * `CMD_INFO`：返回密钥状态（是否存在、长度等）
 * 密钥必须在 TA 内部管理（禁止在 CA 端保存明文密钥）
 * CA 提供 CLI 命令调用（如 `genkey`、`info`）
-
-**建议实现方式：**
-
-* 基础版可使用 TA 内存中的静态缓冲区保存（实验会话有效）
-* 推荐加分方向见进阶要求（持久化存储）
 
 **验收点：**
 
@@ -177,7 +138,7 @@
 * 错误输入（长度不对、非 hex 字符）有基本处理。
 ---
 
-## 六、建议命令行功能
+## 五、建议命令行功能
 
 实现的 CA 至少支持以下命令（可自行扩展）：
 
@@ -188,7 +149,7 @@
 ./secure_hmac_ca verify "hello-optee" <hex_mac>
 ```
 
-### 建议行为说明
+### 说明
 
 * `info`：输出密钥是否存在、长度
 * `genkey`：生成或覆盖密钥
@@ -197,7 +158,7 @@
 
 ---
 
-## 七、工程结构建议
+## 六、工程结构建议
 
 ```text
 tee_lab/
@@ -216,7 +177,7 @@ tee_lab/
 
 ---
 
-## 八、实验步骤
+## 七、实验步骤
 
 ### A. 宿主机侧编译
 
@@ -254,7 +215,7 @@ tee_lab/
 
 ---
 
-## 九、评分细则（本任务内 100 分制）
+## 八、评分细则（本任务内 100 分制）
 
 ### 1）功能完成度（60分）
 
@@ -277,7 +238,7 @@ tee_lab/
 
 ---
 
-## 十、进阶要求
+## 九、进阶要求
 
 ### 进阶一：密钥持久化（+6）
 
@@ -309,5 +270,3 @@ tee_lab/
 * 分析 TEE 方案的边界。
 
 ---
-
-如果你要，我下一步可以继续给你补一版 **“学生版 README（更简洁）”** 和 **“助教评分表（Excel/表格化）”**，这样你发作业时直接一套就齐了。
